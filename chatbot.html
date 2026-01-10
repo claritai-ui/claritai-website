@@ -1,1 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLARIT AI Chatbot - Production Ready</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        .typing-indicator span {
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .chat-shadow {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl font-bold mb-2">🤖 CLARIT AI Chatbot</h1>
+            <p class="text-lg opacity-90">Production-Ready • AI-Powered • Enterprise Grade</p>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        
+        <!-- Instructions Card -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">📋 Deployment Instructions</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                    <h3 class="font-bold text-blue-900 mb-2">✅ Step 1: Get Your Groq API Key</h3>
+                    <ol class="list-decimal list-inside space-y-1 text-sm text-blue-800">
+                        <li>Visit <a href="https://console.groq.com" target="_blank" class="underline">console.groq.com</a></li>
+                        <li>Sign up (free, no credit card required)</li>
+                        <li>Click "API Keys" → "Create API Key"</li>
+                        <li>Copy the key (starts with <code>gsk_</code>)</li>
+                    </ol>
+                </div>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                    <h3 class="font-bold text-green-900 mb-2">✅ Step 2: Deploy to Netlify</h3>
+                    <ol class="list-decimal list-inside space-y-1 text-sm text-green-800">
+                        <li>Push this repo to GitHub</li>
+                        <li>Go to <a href="https://app.netlify.com" target="_blank" class="underline">app.netlify.com</a></li>
+                        <li>Click "Add new site" → "Import an existing project"</li>
+                        <li>Select your GitHub repo</li>
+                        <li>In "Environment variables", add:
+                            <div class="bg-white p-2 rounded mt-2 font-mono text-xs">
+                                Key: <strong>GROQ_API_KEY</strong><br>
+                                Value: <strong>your_groq_api_key_here</strong>
+                            </div>
+                        </li>
+                        <li>Click "Deploy site"</li>
+                    </ol>
+                </div>
+
+                <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+                    <h3 class="font-bold text-purple-900 mb-2">✅ Step 3: Test the Chatbot</h3>
+                    <p class="text-sm text-purple-800 mb-2">Once deployed, test these scenarios:</p>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-purple-800">
+                        <li><strong>Contact Flow:</strong> "I want to contact your team"</li>
+                        <li><strong>Demo Request:</strong> "Show me a demo"</li>
+                        <li><strong>Pricing Query:</strong> "How much does it cost?"</li>
+                        <li><strong>General Info:</strong> "What is Clarit AI?"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">🧪 Test the Chatbot</h2>
+            <p class="text-gray-600 mb-4">Click the purple chat bubble in the bottom-right corner to start testing!</p>
+            
+            <!-- Quick Test Buttons -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                <button onclick="testMessage('What is Clarit AI?')" 
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    About Clarit
+                </button>
+                <button onclick="testMessage('How do chatbots work?')" 
+                        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Chatbots
+                </button>
+                <button onclick="testMessage('What is RAG?')" 
+                        class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    RAG Tech
+                </button>
+                <button onclick="testMessage('How much does it cost?')" 
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Pricing
+                </button>
+                <button onclick="testMessage('Show me a demo')" 
+                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Demo
+                </button>
+                <button onclick="testMessage('I want to contact you')" 
+                        class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+                    Contact
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chatbot Widget -->
+    <div id="chatbot-container"></div>
+
+    <script>
+        // Chatbot Configuration
+        const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE'; // Replace with your actual key
+        const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+        const MODEL = 'llama-3.1-8b-instant';
+
+        // Chatbot State
+        let isOpen = false;
+        let messages = [];
+        let conversationContext = {
+            intent: null,
+            awaitingEmail: false,
+            awaitingPhone: false,
+            lastQuestion: null
+        };
+
+        // System Prompt
+        const SYSTEM_PROMPT = `You are CLARIT, the AI assistant for Clarit AI (claritai.in) - an enterprise RAG solutions provider.
+
+PERSONALITY:
+- Professional yet warm and approachable
+- Concise (2-4 lines max per response)
+- Always helpful and solution-oriented
+- Never mention IIT Guwahati - say "our team" or "someone from our team"
+
+RESPONSE RULES:
+1. Keep responses SHORT (2-4 lines maximum)
+2. Always include a clear call-to-action
+3. NEVER mention specific prices - focus on ROI and custom quotes
+4. When user wants contact/demo, ask: "What works best - email or a quick call?"
+5. When user provides email/phone, confirm and thank them
+6. Detect context - if user already chose "email", ask for their email address
+
+WHAT WE DO:
+- Custom AI Chatbots for enterprises
+- RAG-powered intelligent assistants
+- Industry-specific AI solutions
+- Seamless integrations with existing systems
+
+CONVERSATION FLOWS:
+- Contact Request → Ask: email or call? → Get contact info
+- Demo Request → Ask: today or tomorrow? → Get email
+- Pricing Question → Explain custom pricing → Offer quote call
+- General Question → Answer briefly → Suggest next step
+
+CONTEXT AWARENESS:
+- If user says "Email Works" after contact question → Ask for their email
+- If user says "Prefer Call" → Ask for their phone number
+- If user says "Today Works" after demo question → Ask for email to schedule
+- If user provides email (contains @) → Thank and confirm
+- If user provides phone (10+ digits) → Thank and confirm
+
+Remember: Be helpful, brief, and always move the conversation forward!`;
+
+        // Initialize Chatbot
+        function initChatbot() {
+            const container = document.getElementById('chatbot-container');
+            container.innerHTML = `
+                <!-- Chat Button -->
+                <button id="chat-button" onclick="toggleChat()" 
+                        class="fixed bottom-6 right-6 gradient-bg text-white p-4 rounded-full chat-shadow hover:scale-110 transition-transform z-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+                    </svg>
+                </button>
+
+                <!-- Chat Window -->
+                <div id="chat-window" class="fixed bottom-24 right-6 w-96 h-[600px] bg-white rounded-2xl chat-shadow z-50 hidden flex-col">
+                    <!-- Header -->
+                    <div class="gradient-bg text-white p-4 rounded-t-2xl flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                <span class="text-xl">🤖</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold">CLARIT AI</h3>
+                                <p class="text-xs opacity-90">AI-Powered • Online</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleChat()" class="text-white hover:bg-white/20 p-2 rounded-lg transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Messages -->
+                    <div id="messages" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+
+                    <!-- Input -->
+                    <div class="p-4 border-t">
+                        <div class="flex gap-2">
+                            <input type="text" id="user-input" placeholder="Type your message..." 
+                                   class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                   onkeypress="handleKeyPress(event)">
+                            <button onclick="sendMessage()" 
+                                    class="gradient-bg text-white px-4 py-2 rounded-lg hover:opacity-90 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add welcome message
+            addMessage('assistant', `👋 Hi! I'm CLARIT from Clarit AI.
+
+We build custom AI chatbots and intelligent assistants for enterprises.
+
+What brings you here today?`, [
+                'Custom AI Solutions',
+                'Enterprise Chatbots',
+                'Learn About RAG',
+                'Schedule Demo'
+            ]);
+        }
+
+        // Toggle Chat Window
+        function toggleChat() {
+            isOpen = !isOpen;
+            const chatWindow = document.getElementById('chat-window');
+            const chatButton = document.getElementById('chat-button');
+            
+            if (isOpen) {
+                chatWindow.classList.remove('hidden');
+                chatWindow.classList.add('flex', 'slide-up');
+                chatButton.style.display = 'none';
+            } else {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+                chatButton.style.display = 'block';
+            }
+        }
+
+        // Add Message to Chat
+        function addMessage(role, content, suggestions = []) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `fade-in ${role === 'user' ? 'flex justify-end' : ''}`;
+            
+            messageDiv.innerHTML = `
+                <div class="${role === 'user' ? 'bg-purple-600 text-white' : 'bg-gray-100 text-gray-800'} 
+                            rounded-2xl px-4 py-3 max-w-[80%] ${role === 'assistant' ? 'shadow-sm' : ''}">
+                    ${content.replace(/\n/g, '<br>')}
+                </div>
+            `;
+            
+            messagesDiv.appendChild(messageDiv);
+
+            // Add suggestions if any
+            if (suggestions.length > 0 && role === 'assistant') {
+                const suggestionsDiv = document.createElement('div');
+                suggestionsDiv.className = 'flex flex-wrap gap-2 mt-2 fade-in';
+                suggestions.forEach(suggestion => {
+                    const btn = document.createElement('button');
+                    btn.className = 'bg-white border border-purple-200 text-purple-600 px-3 py-1 rounded-full text-sm hover:bg-purple-50 transition';
+                    btn.textContent = suggestion;
+                    btn.onclick = () => sendMessage(suggestion);
+                    suggestionsDiv.appendChild(btn);
+                });
+                messagesDiv.appendChild(suggestionsDiv);
+            }
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            messages.push({ role, content });
+        }
+
+        // Show Typing Indicator
+        function showTyping() {
+            const messagesDiv = document.getElementById('messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing';
+            typingDiv.className = 'typing-indicator flex gap-1 bg-gray-100 rounded-2xl px-4 py-3 max-w-[80%]';
+            typingDiv.innerHTML = '<span class="w-2 h-2 bg-gray-400 rounded-full"></span><span class="w-2 h-2 bg-gray-400 rounded-full"></span><span class="w-2 h-2 bg-gray-400 rounded-full"></span>';
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function removeTyping() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        // Send Message
+        async function sendMessage(text = null) {
+            const input = document.getElementById('user-input');
+            const message = text || input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage('user', message);
+            if (!text) input.value = '';
+
+            // Show typing
+            showTyping();
+
+            // Get response
+            const response = await getAIResponse(message);
+            removeTyping();
+
+            // Add assistant response with suggestions
+            const suggestions = generateSuggestions(response, message);
+            addMessage('assistant', response, suggestions);
+        }
+
+        // Get AI Response
+        async function getAIResponse(userMessage) {
+            // Update conversation context
+            updateContext(userMessage);
+
+            try {
+                const response = await fetch(GROQ_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            { role: 'system', content: SYSTEM_PROMPT },
+                            ...messages.slice(-6).map(m => ({ role: m.role, content: m.content })),
+                            { role: 'user', content: userMessage }
+                        ],
+                        temperature: 0.7,
+                        max_tokens: 150
+                    })
+                });
+
+                if (!response.ok) throw new Error('API request failed');
+
+                const data = await response.json();
+                return data.choices[0].message.content.trim();
+
+            } catch (error) {
+                console.error('API Error:', error);
+                return getSmartFallback(userMessage);
+            }
+        }
+
+        // Update Conversation Context
+        function updateContext(message) {
+            const lower = message.toLowerCase();
+            
+            // Detect email
+            if (lower.includes('@') && lower.includes('.')) {
+                conversationContext.awaitingEmail = false;
+            }
+            
+            // Detect phone
+            if (/\d{10,}/.test(message)) {
+                conversationContext.awaitingPhone = false;
+            }
+
+            // Detect intent
+            if (lower.includes('contact') || lower.includes('email') || lower.includes('call')) {
+                conversationContext.intent = 'contact';
+            } else if (lower.includes('demo') || lower.includes('show')) {
+                conversationContext.intent = 'demo';
+            } else if (lower.includes('price') || lower.includes('cost')) {
+                conversationContext.intent = 'pricing';
+            }
+        }
+
+        // Smart Fallback Responses
+        function getSmartFallback(message) {
+            const lower = message.toLowerCase();
+            
+            // Email provided
+            if (lower.includes('@') && lower.includes('.')) {
+                return "Thank you! Someone from our team will reach out shortly.\n\nAnything specific you'd like to discuss?";
+            }
+            
+            // Phone provided
+            if (/\d{10,}/.test(message)) {
+                return "Perfect! Someone from our team will give you a call soon.\n\nAny questions in the meantime?";
+            }
+
+            // Context-aware responses
+            if (conversationContext.intent === 'contact') {
+                if (lower.includes('email')) {
+                    return "Perfect! What's your email address?\n\nOur team will reach out within 24 hours.";
+                }
+                if (lower.includes('call')) {
+                    return "Great! What's your phone number?\n\nOur team will call you at a convenient time.";
+                }
+                return "Perfect! Someone from our team will be happy to discuss your needs.\n\nWhat works best for you - email or a quick call?";
+            }
+
+            if (conversationContext.intent === 'demo') {
+                return "Great! We can show you a live demo tailored to your industry with real examples.\n\nShould someone from our team reach out today or tomorrow?";
+            }
+
+            if (conversationContext.intent === 'pricing') {
+                return "Our pricing is customized based on your specific requirements - team size, data complexity, and integrations needed.\n\nMost clients see ROI within 3-6 months. Should I connect you with our team for a detailed quote?";
+            }
+
+            // General responses
+            if (lower.includes('clarit') || lower.includes('about')) {
+                return "Clarit AI specializes in:\n• Custom AI Chatbots\n• Enterprise AI Assistants\n• RAG-powered Solutions\n• Industry-specific AI Systems\n\nWhat interests you most?";
+            }
+
+            if (lower.includes('chatbot')) {
+                return "We build intelligent chatbots that:\n• Understand context & intent\n• Learn from your data\n• Handle complex queries\n• Integrate seamlessly\n\nWant to see a live demo?";
+            }
+
+            if (lower.includes('rag')) {
+                return "RAG (Retrieval-Augmented Generation) combines:\n• Your company's data\n• AI's intelligence\n• Real-time accuracy\n\nResult: Chatbots that give accurate, source-backed answers.\n\nInterested in learning more?";
+            }
+
+            // Default
+            return "I'm here to help! Clarit AI specializes in:\n• Custom AI Chatbots\n• Enterprise AI Assistants\n• RAG-powered Solutions\n\nWhat would you like to explore?";
+        }
+
+        // Generate Suggestions
+        function generateSuggestions(response, userMessage) {
+            const lower = response.toLowerCase();
+            
+            if (lower.includes('email or') && lower.includes('call')) {
+                return ['Email Works', 'Prefer Call', 'Send Details'];
+            }
+            
+            if (lower.includes('today or tomorrow')) {
+                return ['Today Works', 'Tomorrow Better', 'Send Calendar'];
+            }
+            
+            if (lower.includes('email address')) {
+                return []; // User should type email
+            }
+            
+            if (lower.includes('phone number')) {
+                return []; // User should type phone
+            }
+
+            if (lower.includes('what interests')) {
+                return ['See Demo', 'Contact Team', 'Learn More'];
+            }
+
+            if (lower.includes('roi') || lower.includes('quote')) {
+                return ['Get Custom Quote', 'Schedule Call', 'See Case Studies'];
+            }
+
+            return ['See Demo', 'Contact Team', 'Learn More'];
+        }
+
+        // Test Message Function
+        function testMessage(message) {
+            if (!isOpen) toggleChat();
+            setTimeout(() => sendMessage(message), 300);
+        }
+
+        // Handle Enter Key
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initChatbot);
+    </script>
+</body>
+</html>
